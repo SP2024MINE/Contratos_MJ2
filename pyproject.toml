@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "contratos-mj2"
+version = "0.1.0"
+description = "Mi tercer proyecto cd"
+authors = ["JeisonV08 <perezjeison@live.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.11"
+scikit-learn = "^1.5.1"
+pandas = "^2.2.2"
+numpy = "^2.0.1"
+matplotlib = "^3.9.1.post1"
+seaborn = "^0.13.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
