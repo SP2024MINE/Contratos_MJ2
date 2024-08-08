@@ -11,7 +11,7 @@ st.write('Mi primer aplicativo para contratos')
  
 ## Selector de contratos, cargo dsatos de contrtos desde sodapy y le permito al usuario escoger un contrato a visualizar
  
-client = Socrata("www.datos.gov.co","AGKqAbb2ef3sjrnisNKCMDK2I")
+client = Socrata("www.datos.gov.co","xv66xLFwvXNRjMns6TbebGarR")
  
 Query = """
 select
