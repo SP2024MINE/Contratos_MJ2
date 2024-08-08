@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import altair as alt
  
-st.title('Contratos')
+st.title('Contratos UGPP')
 st.write('Aplicativo para contratos')
  
 ## Selector de contratos, cargo dsatos de contrtos desde sodapy y le permito al usuario escoger un contrato a visualizar
@@ -38,7 +38,7 @@ end_date = st.sidebar.date_input('Fecha de fin', pd.to_datetime('2023-01-01'))
 entidad = st.selectbox('Entidad', df['nombre_entidad'].unique()) 
 
 # Gráficos
-st.header('Gráficos')
+st.header('Descripción General Comportamiento Contratos')
 bar_chart = alt.Chart(df).mark_bar().encode(
     x='count()',
     y='modalidad_de_contratacion',
@@ -69,7 +69,7 @@ modalidad = st.selectbox('Seleccione la modalidad', df['modalidad_de_contratacio
  
 df_filtrado = df[df['modalidad_de_contratacion'] == modalidad]
 
-st.header('Métricas')
+st.header('Métricas Por Modalidad')
 total_valor = df_filtrado['valor_del_contrato'].sum()
 total_contratos = len(df_filtrado)
 promedio = df_filtrado['valor_del_contrato'].mean()
@@ -101,7 +101,7 @@ contratista = st.selectbox('Seleccione el contratista', df['proveedor_adjudicado
 
 df_filtrado1 = dataset_contratista[dataset_contratista['proveedor_adjudicado'] == contratista]
 
-st.header('Métricas')
+st.header('Métricas Por Contratista')
 total_valor1 = df_filtrado1['valor_del_contrato'].sum()
 total_contratos1 = len(df_filtrado1)
 promedio1 = df_filtrado1['valor_del_contrato'].mean()
