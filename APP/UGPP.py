@@ -15,7 +15,7 @@ client = Socrata("www.datos.gov.co","xv66xLFwvXNRjMns6TbebGarR")
  
 Query = """
 select
-    id_contrato, nombre_entidad, departamento, modalidad_de_contratacion, valor_del_contrato, fecha_de_firma
+    id_contrato, nombre_entidad, departamento, modalidad_de_contratacion, valor_del_contrato, fecha_de_firma, proveedor_adjudicado
 where
     nombre_entidad LIKE 'UNIDAD DE GESTION PENSIONAL Y PARAFISCALES - UGPP'
 limit
