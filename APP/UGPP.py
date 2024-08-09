@@ -29,17 +29,23 @@ df = pd.DataFrame.from_records(results)
 df['valor_del_contrato'] = df ['valor_del_contrato'].astype(float)
 df['fecha_de_firma'] = pd.to_datetime(df['fecha_de_firma'], format='mixed')
 df['proveedor_adjudicado'] = df['proveedor_adjudicado'].str.title()
+
+
  
 # Filtros de Búsqueda
+
 st.sidebar.header('Filtros')
+
+df['fecha_de_firma'] = pd.to_datetime(df['fecha_de_firma']).dt.date
 start_date = st.sidebar.date_input('Fecha de inicio', pd.to_datetime('2018-01-01'))
 end_date = st.sidebar.date_input('Fecha de fin', pd.to_datetime('2023-01-01'))
+df_filtered = df[(df['fecha_de_firma'] >= start_date) & (df['fecha_de_firma'] <= end_date)]
  
 entidad = st.selectbox('Entidad', df['nombre_entidad'].unique()) 
 
 # Gráficos
 st.header('Descripción General Comportamiento Contratos')
-bar_chart = alt.Chart(df).mark_bar().encode(
+bar_chart = alt.Chart(df_filtered).mark_bar().encode(
     x='count()',
     y='modalidad_de_contratacion',
     color='modalidad_de_contratacion')
@@ -48,14 +54,14 @@ st.altair_chart(bar_chart, use_container_width=True)
  
 # Gráfico de Líneas
  
-line_chart = alt.Chart(df).mark_line().encode(
+line_chart = alt.Chart(df_filtered).mark_line().encode(
     x='fecha_de_firma',
     y='sum(valor_del_contrato)')
 st.altair_chart(line_chart, use_container_width=True)
  
 # Gráfico Circular (Pie Chart)
  
-pie_chart = alt.Chart(df).mark_arc().encode(
+pie_chart = alt.Chart(df_filtered).mark_arc().encode(
     theta=alt.Theta(field='valor_del_contrato', type='quantitative'),
     color=alt.Color(field='modalidad_de_contratacion', type='nominal')
 )
