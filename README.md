@@ -1,6 +1,6 @@
 # Contratos UGPP
 
-Universidad Externado de Colombia*
+*Universidad Externado de Colombia*
 
 ![python311](https://img.shields.io/badge/python-3.12-blue) 
 ![pandas2.2.2](https://img.shields.io/badge/pandas-2.2.2-blue)
