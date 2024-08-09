@@ -91,6 +91,77 @@ Para mayor información puede consultar el archivo de [Licencia](https://github.
    ```
 
 
+2. **Funcionalidades y Métricas Esperadas**
+   La webapp debe incluir las siguientes funcionalidades y métricas para la evaluación de los datos de contratación:
+   
+   - **Filtros de Búsqueda**: Permitir filtrar los datos por rango de fechas, tipo de contrato, entidad contratante y contratista.
+   - **Visualización de Datos**: Mostrar tablas interactivas con los datos filtrados.
+   - **Gráficos y Métricas**: Incluir gráficos y métricas para una mejor visualización y análisis de los datos. Ejemplos sugeridos:
+     - **Gráfico de Barras**: Número de contratos por tipo de contrato.
+     - **Gráfico de Líneas**: Evolución del monto total contratado a lo largo del tiempo.
+     - **Gráfico Circular (Pie Chart)**: Distribución porcentual de los tipos de contratos.
+     - **Métricas**: Monto total contratado, número total de contratos, promedio del monto por contrato.
+   - **Análisis de Contratistas**: Listar los contratistas con mayor número de contratos y el monto total contratado.
+
+   Ejemplo de código para agregar gráficos en Streamlit:
+   ```python
+   import streamlit as st
+   import pandas as pd
+   import altair as alt
+
+   # Configuración de la API Socrata
+   client = Socrata("www.datos.gov", None)
+
+   # Solicitud de datos
+   @st.cache
+   def load_data():
+       results = client.get("xxxx", limit=1000)  # Reemplazar 'xxxx' con el endpoint específico
+       return pd.DataFrame.from_records(results)
+
+   df = load_data()
+
+   # Filtros de Búsqueda
+   st.sidebar.header('Filtros')
+   start_date = st.sidebar.date_input('Fecha de inicio', pd.to_datetime('2020-01-01'))
+   end_date = st.sidebar.date_input('Fecha de fin', pd.to_datetime('2021-01-01'))
+   df_filtered = df[(df['fecha'] >= start_date) & (df['fecha'] <= end_date)]
+
+   # Visualización de Datos
+   st.write(df_filtered)
+
+   # Gráficos y Métricas
+   st.header('Métricas')
+   total_amount = df_filtered['monto'].sum()
+   total_contracts = len(df_filtered)
+   avg_amount = df_filtered['monto'].mean()
+   st.metric('Monto Total Contratado', f'${total_amount:,.2f}')
+   st.metric('Número Total de Contratos', total_contracts)
+   st.metric('Promedio del Monto por Contrato', f'${avg_amount:,.2f}')
+
+   st.header('Gráficos')
+   # Gráfico de Barras
+   bar_chart = alt.Chart(df_filtered).mark_bar().encode(
+       x='tipo_contrato',
+       y='count()',
+       color='tipo_contrato'
+   )
+   st.altair_chart(bar_chart, use_container_width=True)
+
+   # Gráfico de Líneas
+   line_chart = alt.Chart(df_filtered).mark_line().encode(
+       x='fecha',
+       y='sum(monto)'
+   )
+   st.altair_chart(line_chart, use_container_width=True)
+
+   # Gráfico Circular (Pie Chart)
+   pie_chart = alt.Chart(df_filtered).mark_arc().encode(
+       theta=alt.Theta(field='monto', type='quantitative'),
+       color=alt.Color(field='tipo_contrato', type='nominal')
+   )
+   st.altair_chart(pie_chart, use_container_width=True)
+   ```
+
 ## Contacto
 
 Para comunicarse con los creadores del contenido,  lo puede hacer mediante el correo electrónico xxxx@est.uexternado.edu.co
